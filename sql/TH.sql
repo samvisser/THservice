@@ -4,6 +4,18 @@
 DROP TABLE IF EXISTS Courses CASCADE;
 DROP TABLE IF EXISTS Tutors CASCADE;
 DROP TABLE IF EXISTS CourseTutor CASCADE;
+DROP TABLE IF EXISTS Users CASCADE;
+
+-- Create Users table
+CREATE TABLE Users (
+    userID SERIAL PRIMARY KEY,          
+    firstName VARCHAR(100) NOT NULL,    
+    lastName VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,  
+    userPass VARCHAR(255) NOT NULL, 
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 -- Create Courses Table
 CREATE TABLE Courses (
@@ -28,10 +40,11 @@ CREATE TABLE CourseTutor (
     PRIMARY KEY (tutorID, courseID)
 );
 
--- Allow for selecting
+-- Nessecary grants
 GRANT SELECT ON Courses TO PUBLIC;
 GRANT SELECT ON Tutors TO PUBLIC;
 GRANT SELECT ON CourseTutor TO PUBLIC;
+--GRANT SELECT, INSERT, UPDATE, DELETE ON Users TO PUBLIC;
 
 -- Inserts for courses
 INSERT INTO Courses (courseCode, courseName) 
@@ -244,3 +257,9 @@ VALUES
     (8, 37),  -- Sophia Miller for STAT344
     (9, 37),  -- David Martinez for STAT344
     (10, 37); -- Isabela Hernandez for STAT344
+
+INSERT INTO Users (firstName, lastName, email, userPass)
+VALUES
+  ('John', 'Doe', 'john.doe@example.com', 'testpassword123'),
+  ('Jane', 'Smith', 'jane.smith@example.com', 'securepassword456'),
+  ('Michael', 'Johnson', 'michael.johnson@example.com', 'mypassword789');
