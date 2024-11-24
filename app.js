@@ -16,6 +16,7 @@ var codesRouter = require('./routes/courseCodes');
 var tutorsRouter = require('./routes/tutors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var authRouter = require('./routes/auth');
 
 var app = express();
 
@@ -35,6 +36,7 @@ app.use('/users', usersRouter);
 // Use custom routes
 app.use('/coursecodes', codesRouter);
 app.use('/tutors', tutorsRouter);
+app.use('/auth', authRouter);
 
 // Test route for DB connection and environment variables
 app.get('/test-db-connection', async (req, res) => {
