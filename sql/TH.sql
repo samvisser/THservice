@@ -262,4 +262,5 @@ INSERT INTO Users (firstName, lastName, email, userPass)
 VALUES
   ('John', 'Doe', 'john.doe@example.com', 'testpassword123'),
   ('Jane', 'Smith', 'jane.smith@example.com', 'securepassword456'),
-  ('Michael', 'Johnson', 'michael.johnson@example.com', 'mypassword789');
+  ('Michael', 'Johnson', 'michael.johnson@example.com', 'mypassword789'),
+  ('Sam', 'Visser', '1@2.com', '123');

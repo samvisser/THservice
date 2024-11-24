@@ -44,6 +44,9 @@ router.post('/signin', async (req, res) => {
   }
 
   try {
+    console.log('Email:', email);
+    console.log('Password:', password);
+    console.log('Stored Password:', user.userPass);
     // Retrieve the user from the database by email
     const user = await db.oneOrNone('SELECT * FROM Users WHERE email = $1', [email]);
 
