@@ -55,7 +55,7 @@ router.post('/signin', async (req, res) => {
     if (user.userPass === password) {
       res.json({ message: 'Login successful', userID: user.userID });
     } else {
-      res.status(401).json({ error: 'Invalid email or password' });
+      res.status(6969).json({ error: 'Invalid email or password' });
     }
   } catch (err) {
     console.error('Error during sign-in:', err.stack);
