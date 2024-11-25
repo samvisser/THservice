@@ -55,6 +55,9 @@ router.post('/signin', async (req, res) => {
         Match: ${password === user.userpass}`);
   
       if (user.userpass === password) {
+        res.status(200).json({
+          userID: user.userID,
+        });
         res.json({ message: 'Login successful', userID: user.userID });
       } else {
         console.log("Password mismatch");
