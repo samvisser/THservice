@@ -36,37 +36,37 @@ router.post('/signup', async (req, res) => {
 
 // Sign In Endpoint (User Authentication)
 router.post('/signin', async (req, res) => {
-    const { email, password } = req.body;
-    console.log("Request received:", { email, password });
-  
-    try {
-      const user = await db.oneOrNone('SELECT * FROM Users WHERE email = $1', [email]);
-  
-      if (!user) {
-        console.log("User not found");
-        return res.status(401).json({ error: 'Invalid email or password' });
-      }
-  
-      console.log("User found:", user);
-  
-      console.log(`Password comparison:
+  const { email, password } = req.body;
+  console.log("Request received:", { email, password });
+
+  try {
+    const user = await db.oneOrNone('SELECT * FROM Users WHERE email = $1', [email]);
+
+    if (!user) {
+      console.log("User not found");
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    console.log("User found:", user);
+
+    console.log(`Password comparison:
         Given password: "${password}"
         Stored password: "${user.userpass}"
         Match: ${password === user.userpass}`);
-  
-      if (user.userpass === password) {
-        res.status(200).json({
-          userID: user.userID,
-        });
-        res.json({ message: 'Login successful', userID: user.userID });
-      } else {
-        console.log("Password mismatch");
-        res.status(169).json({ error: 'Invalid email or password' });
-      }
-    } catch (err) {
-      console.error('Error during sign-in:', err.stack);
-      res.status(500).json({ error: 'An error occurred during sign-in', details: err.message });
+
+    if (user.userpass === password) {
+      return res.status(200).json({
+        message: 'Login successful',
+        userID: user.userID,
+      });
+    } else {
+      console.log("Password mismatch");
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
-  });
+  } catch (err) {
+    console.error('Error during sign-in:', err.stack);
+    res.status(500).json({ error: 'An error occurred during sign-in', details: err.message });
+  }
+});
 
 module.exports = router;
