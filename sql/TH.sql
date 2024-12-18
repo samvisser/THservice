@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Courses CASCADE;
 DROP TABLE IF EXISTS Tutors CASCADE;
 DROP TABLE IF EXISTS CourseTutor CASCADE;
 DROP TABLE IF EXISTS Users CASCADE;
+DROP TABLE IF EXISTS Favorites CASCADE;
 
 -- Create Users table
 CREATE TABLE Users (
@@ -35,16 +36,24 @@ CREATE TABLE Tutors (
 
 -- Create CourseTutor Junction Table for Many-to-Many Relationship
 CREATE TABLE CourseTutor (
-    tutorID INT REFERENCES Tutors(tutorID) ON DELETE CASCADE,
-    courseID INT REFERENCES Courses(courseID) ON DELETE CASCADE,
+    tutorID INT REFERENCES Tutors(tutorID),
+    courseID INT REFERENCES Courses(courseID),
     PRIMARY KEY (tutorID, courseID)
+);
+
+-- Create table for favorites counter
+CREATE TABLE Favorites (
+    userID INT REFERENCES Users(userID) ON DELETE CASCADE,
+    tutorID INT REFERENCES Tutors(tutorID) ON DELETE CASCADE,
+    PRIMARY KEY (userID, tutorID)
 );
 
 -- Nessecary grants
 GRANT SELECT ON Courses TO PUBLIC;
 GRANT SELECT ON Tutors TO PUBLIC;
 GRANT SELECT ON CourseTutor TO PUBLIC;
---GRANT SELECT, INSERT, UPDATE, DELETE ON Users TO PUBLIC;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Users TO PUBLIC;
+GRANT SELECT, INSERT, UPDATE, DELETE ON Favorites TO PUBLIC;
 
 -- Inserts for courses
 INSERT INTO Courses (courseCode, courseName) 
@@ -260,7 +269,37 @@ VALUES
 
 INSERT INTO Users (firstName, lastName, email, userPass)
 VALUES
-  ('John', 'Doe', 'john.doe@example.com', 'testpassword123'),
-  ('Jane', 'Smith', 'jane.smith@example.com', 'securepassword456'),
-  ('Michael', 'Johnson', 'michael.johnson@example.com', 'mypassword789'),
-  ('Sam', 'Visser', '1@2.com', '123');
+    ('Sam', 'Visser', '1@2.com', '123'),
+    ('John', 'Doe', 'johndoe@email.com', 'TH'),
+    ('Jane', 'Smith', 'janesmith@email.com', 'TH'),
+    ('Michael', 'Johnson', 'michaeljohnson@email.com', 'TH'),
+    ('Emily', 'Davis', 'emilydavis@email.com', 'TH'),
+    ('William', 'Brown', 'williambrown@email.com', 'TH'),
+    ('Olivia', 'Wilson', 'oliviawilson@email.com', 'TH'),
+    ('James', 'Taylor', 'jamestaylor@email.com', 'TH'),
+    ('Sophia', 'Miller', 'sophiamiller@email.com', 'TH'),
+    ('David', 'Martinez', 'davidmartinez@email.com', 'TH'),
+    ('Isabella', 'Hernandez', 'isabellahernandez@email.com', 'TH'),
+    ('Lucas', 'Garcia', 'lucasgarcia@email.com', 'TH'),
+    ('Ava', 'Rodriguez', 'avarodriguez@email.com', 'TH'),
+    ('Ethan', 'Lee', 'ethanlee@email.com', 'TH'),
+    ('Mia', 'Perez', 'miaperez@email.com', 'TH'),
+    ('Alexander', 'Martinez', 'alexandermartinez@email.com', 'TH'),
+    ('Charlotte', 'Gonzalez', 'charlottegonzalez@email.com', 'TH'),
+    ('Benjamin', 'Wilson', 'benjaminwilson@email.com', 'TH'),
+    ('Amelia', 'Anderson', 'ameliaanderson@email.com', 'TH'),
+    ('Henry', 'Thomas', 'henrythomas@email.com', 'TH'),
+    ('Lily', 'Jackson', 'lilyjackson@email.com', 'TH');
+
+INSERT INTO Favorites (userID, tutorID) 
+VALUES 
+    -- Tutors with 1 favorite (25%)
+    (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (2, 16), (2, 17), (2, 18), (2, 19), (2,20),
+    
+    -- Tutors with 2+ favorites (20%)
+    (6, 6), (7, 6), (8, 7), (9, 7), (10, 8), (11, 8),
+    (12, 9), (13, 9),
+    
+    -- Tutors with 4+ favorites (20%)
+    (14, 10), (15, 10), (16, 10), (17, 11), (18, 11), (19, 11), (20, 12),
+    (21, 12);

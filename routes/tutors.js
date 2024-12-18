@@ -5,7 +5,15 @@ const db = require('../db'); // Import the database connection
 
 // GET /tutors - get all tutors with their full names
 router.get('/', function(req, res, next) {
-  db.any("SELECT firstName || ' ' || lastName AS tutorName FROM Tutors")
+  db.any(`
+    SELECT 
+      Tutors.firstName || ' ' || Tutors.lastName AS tutorName, 
+      Users.userID,
+      Tutors.tutorID 
+    FROM Tutors
+    JOIN Users ON Tutors.firstName = Users.firstName 
+               AND Tutors.lastName = Users.lastName 
+  `)
     .then(tutors => {
       console.log(tutors);
       res.json(tutors);

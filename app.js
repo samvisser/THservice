@@ -11,18 +11,26 @@ const { Client } = require('pg');
 //import for local testing
 require('dotenv').config();
 
+
+
 // import routes
 var codesRouter = require('./routes/courseCodes');
 var tutorsRouter = require('./routes/tutors');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var favRouter = require('./routes/fav');
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// app.use((req, res, next) => {
+//   console.log(`[DEBUG] Incoming request: ${req.method} ${req.url}`);
+//   next(); // Proceed to the next handler
+// });
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -37,6 +45,7 @@ app.use('/users', usersRouter);
 app.use('/coursecodes', codesRouter);
 app.use('/tutors', tutorsRouter);
 app.use('/auth', authRouter);
+app.use('/fav', favRouter);
 
 // Test route for DB connection and environment variables
 app.get('/test-db-connection', async (req, res) => {
